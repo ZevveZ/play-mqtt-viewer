@@ -1,0 +1,260 @@
+swagger: "2.0"
+info:
+  title: robot site api
+  description: Robot Site Rest API powered by Django
+  version: 1.0.0
+
+host: 222.201.144.236:8085
+schemes:
+  - http
+basePath: /robot/api/v1
+produces:
+  - application/json
+
+paths:
+  /users/:
+    post:
+      description: 注册新用户, 用户名只能由字母数字组成
+      parameters:
+        - name: user
+          in: body
+          description: the user to create
+          schema: 
+            required:
+              - username
+              - password
+              - nickname
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              nickname:
+                type: string
+      responses:
+        201:
+          description: ok
+        400:
+          description: require username, password, nickname
+  /users/{username}/:
+    get:
+      description: get details of user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: the user to get deails
+          type: string
+      responses:
+        200:
+          description: ok
+          schema:
+            properties:
+              device_list:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                    devicename:
+                      type: string
+              nickname:
+                type: string
+        400:
+          description: username in path is not match login in user's username
+    post:
+      description: 可以同时修改一种或多种用户信息,包括nickname,password,增删用户设备列表(同时会修改ACLs权限表),但是不能修改设备的昵称,如果需要修改设备的昵称,使用/devices/{device_id}/,例如只需要修改用户密码,那么post的数据只需要包含password字段; 如果用户修改密码需要重新登陆; device_list数组元素的id必须在数据库中存在才能成功添加; device_list的元素就是用户拥有的所有设备,例如用户想清空所有的设备,那么就post一个空的device_list;
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: the user to change information
+          type: string
+        - name: information
+          in: body
+          schema: 
+            properties:
+              nickname:
+                type: string
+              password:
+                type: string
+              device_list:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                    devicename:
+                      type: string
+      responses:
+        200:
+          description: ok
+    delete:
+      description: 注销用户并退出登陆; 用户与设备的关系, 对设备的权限ACLs也会被清除
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: the user to unregister
+          type: string
+      responses:
+        201:
+          description: ok
+  /users/{username}/{deviceid}/:
+    post:
+      description: 为username对应的用户添加对应deviceid的设备
+      responses:
+        200:
+          description: 添加成功
+        400:
+          description: 添加失败
+    delete:
+      description: 为username对应用户删除对应deviceid的设备
+      responses:
+        200:
+          description: 只要能够找到deviceid都返回成功,即使设备不属于用户
+        400:
+          description: 找不到对应deviceid的设备
+      
+  /session/:
+    post:
+      description: login， 如果登录成功就会返回一个csrftoken字符串，前端需要在header中设置X-CSRFToken为该值以在后续的请求中通过Django的csrf检查
+      parameters:
+        - name: information
+          in: body
+          schema:
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: ok
+        400:
+          description: username or password error
+    delete:
+      description: sign out
+      responses:
+        204:
+          description: ok
+  /devices/:
+    post:
+      description: 添加新的设备, 注意新设备不会添加到当前登陆用户的设备列表中
+      parameters:
+        - name: device_info
+          in: body
+          schema:
+            required:
+              - devicename
+              - password
+              - nickname
+            properties:
+              devicename:
+                type: string
+              password:
+                type: string
+              nickname:
+                type: string
+      responses:
+        201:
+          description: ok
+        400:
+          description: fail
+  /devices/{device_id}:
+    get:
+      description: get the information of device_id
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+      responses:
+        200:
+          description: sensorcnt is the sum of this kind of sensor of this device; sensorname is the name of this kind of sensor; sensorurl is the general url of this kind of sensor
+          schema:
+            properties:
+              devicename:
+                type: string
+              sensor_list:
+                type: array
+                items:
+                  properties:
+                    sensorcnt:
+                      type: integer
+                    sensorurl:
+                      type: string
+                    sensorname:
+                      type: string
+        400:
+          description: the device is not belonging to the current user
+    post:
+      description: 修改设备的昵称或者传感器列表, 在post的数据中只需要包含修改的字段; 与增删设备列表的逻辑不同, 如果需要删除某种传感器,需要将对应传感器类型的sensorcnt设置为0,下次重新获取传感器列表时就不会包含这种传感器了
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+        - name: deviceinfo
+          in: body
+          schema:
+            required:
+              - devicename
+              - sensor_list
+            properties:
+              devicename:
+                type: string
+              sensor_list:
+                type: array
+                items:
+                  properties:
+                    sensorcnt:
+                      type: integer
+                    sensorname:
+                      type: string
+      responses:
+        200:
+          description: ok
+        400:
+          description: see the error message return
+    delete:
+      description: 删除device_id对应的设备
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+      responses:
+        204:
+          description: ok
+  /sensors/:
+    get:
+      description: 返回目前支持的传感器信息,包括sensorname和sensorurl; 注意实际的返回结果最外层为数组[],而不是{[]}
+      responses:
+        200:
+          description: ok
+          schema:
+            properties:
+              sensorlist:
+                type: array
+                items:
+                  properties:
+                    sensorname:
+                      type: string
+                    sensorurl:
+                      type: string
+    post:
+      description: 添加新的传感器, 注意新添加的传感器并没有添加到任何设备上
+      parameters:
+        - name: sensor_info
+          in: body
+          schema:
+            required:
+              - sensorname
+              - sensorurl
+            properties:
+              sensorname:
+                type: string
+              sensorurl:
+                type: string
+          

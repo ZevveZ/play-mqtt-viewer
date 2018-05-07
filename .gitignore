@@ -1,0 +1,4 @@
+/mosquitto-auth-plug/
+/mosquitto/data/*
+/mosquitto/log/*
+/mysql/*

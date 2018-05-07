@@ -1,0 +1,29 @@
+version: "3"
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql:rw
+    environment:
+      - MYSQL_DATABASE=robotdb
+      - MYSQL_ROOT_PASSWORD=helloroot
+    ports:
+      - "3306:3306"
+  mosquitto:
+    build: ./mosquitto-auth-plug/
+    command: /usr/sbin/mosquitto -v -c /mosquitto/config/mosquitto.conf
+    volumes:
+      - ./mosquitto:/mosquitto
+    ports:
+      - "8883:8883"
+      - "8001:8001"
+    depends_on:
+      - mysql 
+  django:
+    build: ./site/
+    volumes:
+      - ./site/:/code/site/:rw
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql 

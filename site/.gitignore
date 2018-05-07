@@ -1,0 +1,8 @@
+.DS_Store
+/.vscode
+__pycache__
+/env/
+/app/migrations/*
+!/app/migrations/__init__.py
+/app/media/
+
