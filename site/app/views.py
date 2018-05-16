@@ -247,8 +247,8 @@ def sensors(request, format=None):
 def sensor(request, sensorname, formate=None):
     if request.method == 'DELETE':
         # 判断sensorname是否存在
-        sensor = Sensors.objects.get(sensorname=sensorname)
-        if not sensor:
+        sensors = Sensors.objects.filter(sensorname=sensorname)
+        if not sensors.exists():
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        sensor.delete()
+        sensors.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
