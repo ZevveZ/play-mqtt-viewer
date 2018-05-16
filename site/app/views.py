@@ -242,3 +242,13 @@ def sensors(request, format=None):
         # 注意这里并没有将新添加的传感器添加到设备上
         return Response(status=status.HTTP_201_CREATED)
 
+@login_required
+@api_view(('DELETE',))
+def sensor(request, sensorname, formate=None):
+    if request.method == 'DELETE':
+        # 判断sensorname是否存在
+        sensor = Sensors.objects.get(sensorname=sensorname)
+        if not sensor:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        sensor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

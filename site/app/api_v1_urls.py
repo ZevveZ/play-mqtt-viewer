@@ -10,4 +10,5 @@ urlpatterns=[
     url(r'^devices/$', views.devices, name='devices'),
     url(r'^devices/([0-9]+)/$', views.device, name='device'),
     url(r'^sensors/$', views.sensors, name = 'sensors'),
+    url(r'^sensors/(\w+)/$', views.sensor, name='sensor')
 ]

@@ -98,7 +98,7 @@ paths:
           description: the user to unregister
           type: string
       responses:
-        201:
+        204:
           description: ok
   /users/{username}/{deviceid}/:
     post:
@@ -259,4 +259,11 @@ paths:
                 type: string
               sensorurl:
                 type: string
-          
+  /sensors/{sensorname}/:
+    delete:
+      description: 删除sensorname的传感器
+      responses:
+        204:
+          description: ok
+        400:
+          description: sensorname对应的传感器不存在
