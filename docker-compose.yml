@@ -27,3 +27,9 @@ services:
       - "8000:8000"
     depends_on:
       - mysql 
+  vue:
+    build: ./vue-docker-demo/
+    ports:
+      - "8002:80"
+    depends_on:
+      - django

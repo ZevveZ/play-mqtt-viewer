@@ -298,28 +298,28 @@
 
         function onConnect() {
             console.log('connected');
-            client.subscribe('/6/monitor/+');
+            client.subscribe('/1/monitor/+');
         }
         function onMessageArrived(message) {
             console.log(message.destinationName);
             res = JSON.parse(message.payloadString);
-            if (message.destinationName == '/6/monitor/cpu_stat') {
+            if (message.destinationName == '/1/monitor/cpu_stat') {
                 cpuStatDonutChart.updateChartData(res);
                 cpuStatIdleChart.updateChartData(res);
                 cpuStatUserGroupChart.updateChartData(res);
                 cpuIrqGroupChart.updateChartData(res);
                 cpuIrqChart.updateChartData(res);
-            }else if (message.destinationName == '/6/monitor/cpu_softirq') {
+            }else if (message.destinationName == '/1/monitor/cpu_softirq') {
                 cpuNettxIrqChart.updateChartData(res);
                 cpuNetrxIrqChart.updateChartData(res);
                 cputaskletIrqChart.updateChartData(res);
                 cpuhrtimerIrqChart.updateChartData(res);
-            }else if(message.destinationName == '/6/monitor/cpu_avgload'){
+            }else if(message.destinationName == '/1/monitor/cpu_avgload'){
                 cpuAvgloadChart.updateChartData(res);
-            }else if(message.destinationName == '/6/monitor/memory_procrank'){
+            }else if(message.destinationName == '/1/monitor/memory_procrank'){
                 memoryFreePssStatChart.updateChartData(res);
                 memoryPssStatChart.updateChartData(res);
-            }else if(message.destinationName == '/6/monitor/io_status'){
+            }else if(message.destinationName == '/1/monitor/io_status'){
                 ioStatChart.updateChartData(res);
             }
             

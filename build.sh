@@ -12,3 +12,6 @@ sudo pip3 install docker-compose
 
 # get mosquitto-auth-plug
 git clone https://github.com/ZevveZ/mosquitto-auth-plug.git
+
+# build containers
+docker-compose build

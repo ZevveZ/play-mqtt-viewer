@@ -18,7 +18,7 @@ class DeviceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Devices
-        fields = ('devicename', 'sensor_list')
+        fields = ('devicename','nickname', 'sensor_list')
 
 class DeviceListSerializer(serializers.ModelSerializer):
     class Meta:

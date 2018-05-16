@@ -178,6 +178,8 @@ paths:
             properties:
               devicename:
                 type: string
+              nickname:
+                type: string
               sensor_list:
                 type: array
                 items:

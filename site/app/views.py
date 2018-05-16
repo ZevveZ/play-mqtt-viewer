@@ -22,6 +22,9 @@ def test_monitor(request):
 def test_mcamera(request):
     return render(request, 'mcamera.html')
 
+def test_fr(request):
+    return render(request, 'fr.html')
+
 # 从设备推流时忽略跨站伪造请求的检查
 
 
@@ -122,7 +125,10 @@ def userdevice(request, username, id, format=None):
             ACLs.objects.create(user=user, device=device, clientname=user.username, topic='/'+str(device.id)+'/#', rw=2).save()
         return Response(status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
-        user.devices.filter(id=id).delete()
+	# 判断用户是否拥有此设备
+        if not user.devices.filter(id=device.id).exists():
+            return Response('device id is illegal', status=status.HTTP_400_BAD_REQUEST)
+        ACLs.objects.get(user=user, device=device).delete()
         return Response(status=status.HTTP_200_OK)
 
 
