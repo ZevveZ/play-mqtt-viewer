@@ -257,10 +257,11 @@ def on_message(client, userdata, msg):
         topic = msg.topic[:-4]
         client.publish(topic, json.dumps(data, ensure_ascii=False))
 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.username_pw_set('monitor', 'hellomonitor')
-client.tls_set(ca_certs='/code/site/app/modules/ca.crt')
-client.connect('222.201.144.236', 8883, 60)
-client.loop_forever()
+if __name__ == '__main__':
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.username_pw_set('monitor', 'hellomonitor')
+    client.tls_set(ca_certs='/code/site/app/modules/ca.crt')
+    client.connect('222.201.144.236', 8883, 60)
+    client.loop_forever()
