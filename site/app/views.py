@@ -168,7 +168,7 @@ def devices(request, format=None):
             return Response('require devicename, password, nickname', status=status.HTTP_400_BAD_REQUEST)
         ACLs.objects.create(device=newdev, clientname=newdev.devicename, topic='/'+str(newdev.id)+'/#', rw=2).save()
         # 更新用户的设备列表
-        ACLs.objects.create(user=user, device=device, clientname=request.user.username, topic='/'+str(device.id)+'/#', rw=2).save()
+        ACLs.objects.create(user=request.user, device=newdev, clientname=request.user.username, topic='/'+str(newdev.id)+'/#', rw=2).save()
         return Response(status=status.HTTP_201_CREATED)
 
 
