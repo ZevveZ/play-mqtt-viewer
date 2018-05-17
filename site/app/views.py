@@ -166,9 +166,9 @@ def devices(request, format=None):
             newdev.save()
         except Exception as e:
             return Response('require devicename, password, nickname', status=status.HTTP_400_BAD_REQUEST)
-        # # 更新用户的设备列表
-        # request.user.devices.add(newdev)
         ACLs.objects.create(device=newdev, clientname=newdev.devicename, topic='/'+str(newdev.id)+'/#', rw=2).save()
+        # 更新用户的设备列表
+        ACLs.objects.create(user=user, device=device, clientname=user.username, topic='/'+str(device.id)+'/#', rw=2).save()
         return Response(status=status.HTTP_201_CREATED)
 
 
