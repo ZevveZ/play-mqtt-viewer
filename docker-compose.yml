@@ -28,7 +28,7 @@ services:
     depends_on:
       - mysql 
   vue:
-    build: ./vue-docker-demo/
+    build: ./robot-vue
     ports:
       - "8002:80"
     depends_on:

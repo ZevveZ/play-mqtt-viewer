@@ -2,3 +2,4 @@
 /mosquitto/data/*
 /mosquitto/log/*
 /mysql/*
+/robot-vue/

@@ -13,5 +13,8 @@ sudo pip3 install docker-compose
 # get mosquitto-auth-plug
 git clone https://github.com/ZevveZ/mosquitto-auth-plug.git
 
+# get robot-vue
+git clone https://github.com/Zev1996/robot-vue.git
+
 # build containers
 docker-compose build
