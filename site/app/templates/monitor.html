@@ -66,7 +66,7 @@
         <div id="container-div-cpu-stat-irqGroup" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuIrqGroupChartTitle }}</span>
+                CPU Stat: IRQ + SoftIRQ
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -83,7 +83,7 @@
         <div id="container-div-cpu-stat-irq" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuIrqChartTitle }}</span>
+                CPU Stat: IRQ
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -100,7 +100,7 @@
         <div id="container-div-cpu-stat-nettxIrq" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuNettxIrqChartTitle }}</span>
+                CPU Stat: SoftIRQ - NET_TX
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -116,7 +116,7 @@
         <div id="container-div-cpu-stat-netrxIrq" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuNettxIrqChartTitle }}</span>
+                CPU Stat: SoftIRQ - NET_RX
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -131,7 +131,7 @@
         <div id="container-div-cpu-stat-taskletIrq" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuNettxIrqChartTitle }}</span>
+                CPU Stat: SoftIRQ - TASKLET
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -146,7 +146,7 @@
         <div id="container-div-cpu-stat-hrtimerIrq" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                <span class="spanTitle">{{ languages.cpuNettxIrqChartTitle }}</span>
+                CPU Stat: SoftIRQ - HRTIMER
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -163,11 +163,7 @@
         <div id="container-div-cpu-avgload" class="card mb-3">
             <div class="card-header">
                 <i class="icon-cpu-processor"></i>
-                {% if config == 'debug' %}
-                <span class="spanTitle">{{ languages.averageLoadChartTitle }} - [GetProcLoadavg]</span>
-                {% else %}
-                <span class="spanTitle" fullTitle="{{ languages.averageLoadChartTitleFull }}" shortTitle="{{ languages.averageLoadChartTitle }}">{{ languages.averageLoadChartTitle }}</span>
-                {% endif %}
+                <span class="spanTitle" fullTitle="Average Load: CPU的平均负载; 当达到0.7*核数时，负载较重; 当达到1.0*核数时，CPU是性能瓶颈" shortTitle="Average Load">Average Load</span>
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
@@ -183,9 +179,8 @@
             <div class="col-md-4">
                 <div id="container-div-memory-free-pss-stat" class="card mb-3">
                     <div class="card-header">
-                        {% if config == 'debug' %}
-                        <i class="icon-ram"></i> {{ languages.memoryPssAgainstTotalChartTitle }} -[GetCmdProcrank] {% else %}
-                        <i class="icon-ram"></i> {{ languages.memoryPssAgainstTotalChartTitle }} {% endif %}
+                        <i class="icon-ram"></i>
+                        应用程序耗费内存占总内存比例
                     </div>
                     <div class="card-body">
                         <div class="chart-panel"></div>
@@ -198,9 +193,8 @@
             <div class="col-md-8">
                 <div id="container-div-memory-pss-stat" class="card mb-3">
                     <div class="card-header">
-                        {% if config == 'debug' %}
-                        <i class="icon-ram"></i> {{ languages.memoryPssDonutChartTitle }} -[GetCmdProcrank] {% else %}
-                        <i class="icon-ram"></i> {{ languages.memoryPssDonutChartTitle }} {% endif %}
+                        <i class="icon-ram"></i>
+                        应用程序内存消耗比例分布(基于PSS)
                     </div>
                     <div class="card-body">
                         <div class="chart-panel"></div>
@@ -219,9 +213,8 @@
     <div class="col-md-12">
         <div id='container-div-IOCharts' class="card mb-3">
             <div class="card-header">
-                {% if config == 'debug' %}
-                <i class="icon-syncalt"></i> {{ languages.ioChartTitle }} -[GetCmdIostat] {% else %}
-                <i class="icon-syncalt"></i> {{ languages.ioChartTitle }} {% endif %}
+                <i class="icon-syncalt"></i>
+                I/O吞吐量
             </div>
             <div class="card-body">
                 <div class="chart-panel"></div>
